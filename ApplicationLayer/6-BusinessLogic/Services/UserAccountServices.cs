@@ -19,21 +19,21 @@ namespace ApplicationLayer.BusinessLogic.Services
         public async Task<UserAccount> GetUserAccountByIdAsync(int accountId)
             => await Task.Run(() => _userAccountRepository.GetDbSet().FirstOrDefaultAsync(row => row.Id == accountId));
 
-        public ServiceResult GetUserByValidationMethodAsync(SignInViewModel loginViewModel)
+        public ServiceResult GetUserByValidationMethodAsync(SignInViewModel signInViewModel)
         {
             try
             {
                 var result = _userAccountRepository.Query();
 
-                if (loginViewModel.ValidationMethod == ValidationMethod.OneTimePasswordEmail)
-                    result = result.Where(current => current.Email == loginViewModel.UserName);
-                else if (loginViewModel.ValidationMethod == ValidationMethod.OneTimePasswordMobile)
-                    result = result.Where(current => current.PhoneNumber == loginViewModel.UserName);
+                if (signInViewModel.ValidationMethod == ValidationMethod.OneTimePasswordEmail)
+                    result = result.Where(current => current.Email == signInViewModel.UserName);
+                else if (signInViewModel.ValidationMethod == ValidationMethod.OneTimePasswordMobile)
+                    result = result.Where(current => current.PhoneNumber == signInViewModel.UserName);
                 else
                     result = result.Where(
-                        current => current.UserName == loginViewModel.UserName
-                        || current.Email == loginViewModel.UserName
-                        || current.PhoneNumber == loginViewModel.UserName);
+                        current => current.UserName == signInViewModel.UserName
+                        || current.Email == signInViewModel.UserName
+                        || current.PhoneNumber == signInViewModel.UserName);
 
                 if (!result?.Any() ?? true)
                 {

@@ -7,7 +7,7 @@ namespace ApplicationLayer.BusinessLogic.Interfaces
     {
         Task<UserAccount> GetUserAccountByIdAsync(int accountId);
 
-        ServiceResult GetUserByValidationMethodAsync(SignInViewModel loginViewModel);
+        ServiceResult GetUserByValidationMethodAsync(SignInViewModel signInViewModel);
 
         Task<ServiceResult> AddProfileAsync(UserProfile model);
 

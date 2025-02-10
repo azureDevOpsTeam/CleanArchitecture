@@ -15,8 +15,8 @@ namespace PresentationApp.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("Login")]
-        public async Task<IActionResult> LoginAsync(SignInQuery model)
+        [Route("SignIn")]
+        public async Task<IActionResult> SignInAsync(SignInQuery model)
             => await ResultHelper.GetResultAsync(_mediator, model);
 
         [HttpPost]

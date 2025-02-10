@@ -24,21 +24,21 @@ namespace ApplicationLayer.BusinessLogic.Services
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly ILogger<IdentityService> _logger = logger;
 
-        public ServiceResult AuthenticateOneTimePassword(SignInViewModel loginViewModel, UserAccount userAccount)
+        public ServiceResult AuthenticateOneTimePassword(SignInViewModel signInViewModel, UserAccount userAccount)
         {
-            if (loginViewModel.SecurityCode != userAccount.SecurityCode || DateTime.Now > userAccount.ExpireSecurityCode)
+            if (signInViewModel.SecurityCode != userAccount.SecurityCode || DateTime.Now > userAccount.ExpireSecurityCode)
             {
                 return new ServiceResult
                 {
                     RequestStatus = RequestStatus.NotFound,
-                    Data = loginViewModel,
+                    Data = signInViewModel,
                     Message = IdentityMessages.IncorrectSecurityCode
                 };
             }
 
             AuthorizeResultViewModel result = new()
             {
-                UserFullName = loginViewModel.UserName
+                UserFullName = signInViewModel.UserName
             };
 
             return new ServiceResult
@@ -49,17 +49,17 @@ namespace ApplicationLayer.BusinessLogic.Services
             };
         }
 
-        public ServiceResult AuthenticateUserInformation(SignInViewModel loginViewModel, UserAccount userAccount)
+        public ServiceResult AuthenticateUserInformation(SignInViewModel signInViewModel, UserAccount userAccount)
         {
-            var passwordIsValid = HashGenerator.VerifyPassword(loginViewModel.Password, userAccount.Password, userAccount.SecurityStamp);
+            var passwordIsValid = HashGenerator.VerifyPassword(signInViewModel.Password, userAccount.Password, userAccount.SecurityStamp);
             if (!passwordIsValid)
                 return new ServiceResult { RequestStatus = RequestStatus.Failed, Message = IdentityMessages.IncorrectPassword };
             else
             {
                 AuthorizeResultViewModel result = new();
-                //var getAccessToken = TokenGenerator(loginViewModel.UserName, userAccount.Id);
+                //var getAccessToken = TokenGenerator(signInViewModel.UserName, userAccount.Id);
                 //result.AccessTokens = getAccessToken;
-                result.UserFullName = loginViewModel.UserName;
+                result.UserFullName = signInViewModel.UserName;
 
                 return new ServiceResult { RequestStatus = RequestStatus.Successful, Data = result, Message = CommonMessages.Successful };
             }
