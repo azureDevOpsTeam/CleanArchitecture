@@ -7,17 +7,17 @@ using MediatR;
 
 namespace ApplicationLayer.Requests.Identities.Handler
 {
-    public class LoginHandler(IIdentityService identityService,
+    public class SignInHandler(IIdentityService identityService,
                                    IRefreshTokenService refreshTokenService,
                                    IUserAccountServices userAccountServices,
-                                   IUnitOfWork unitOfWork) : IRequestHandler<LoginQuery, HandlerResult>
+                                   IUnitOfWork unitOfWork) : IRequestHandler<SignInQuery, HandlerResult>
     {
         private readonly IIdentityService _identityService = identityService;
         private readonly IRefreshTokenService _refreshTokenService = refreshTokenService;
         private readonly IUserAccountServices _userAccountServices = userAccountServices;
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-        public async Task<HandlerResult> Handle(LoginQuery request, CancellationToken cancellationToken)
+        public async Task<HandlerResult> Handle(SignInQuery request, CancellationToken cancellationToken)
         {
             var userResult = _userAccountServices.GetUserByValidationMethodAsync(request.InputData);
 
@@ -35,7 +35,7 @@ namespace ApplicationLayer.Requests.Identities.Handler
             }
             else
             {
-                return new HandlerResult<LoginViewModel>
+                return new HandlerResult<SignInViewModel>
                 {
                     RequestStatus = userResult.RequestStatus,
                     Data = null,
@@ -45,7 +45,7 @@ namespace ApplicationLayer.Requests.Identities.Handler
 
             if (serviceResult.RequestStatus != RequestStatus.Successful)
             {
-                return new HandlerResult<LoginViewModel>
+                return new HandlerResult<SignInViewModel>
                 {
                     RequestStatus = serviceResult.RequestStatus,
                     Data = null,
@@ -61,7 +61,7 @@ namespace ApplicationLayer.Requests.Identities.Handler
             var refreshTokenResult = _refreshTokenService.AddRefreshToken(refreshToken);
 
             if (refreshTokenResult.RequestStatus != RequestStatus.Successful)
-                return new HandlerResult<LoginViewModel>
+                return new HandlerResult<SignInViewModel>
                 {
                     RequestStatus = refreshTokenResult.RequestStatus,
                     Data = null,
@@ -73,7 +73,7 @@ namespace ApplicationLayer.Requests.Identities.Handler
             authorizeResultViewModel.AccessTokens = token.jwtToken;
             authorizeResultViewModel.RefreshToken = refreshToken.Token;
 
-            return new HandlerResult<LoginViewModel>
+            return new HandlerResult<SignInViewModel>
             {
                 RequestStatus = serviceResult.RequestStatus,
                 Data = authorizeResultViewModel,

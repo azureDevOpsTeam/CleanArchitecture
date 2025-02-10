@@ -19,7 +19,7 @@ namespace ApplicationLayer.BusinessLogic.Services
         public async Task<UserAccount> GetUserAccountByIdAsync(int accountId)
             => await Task.Run(() => _userAccountRepository.GetDbSet().FirstOrDefaultAsync(row => row.Id == accountId));
 
-        public ServiceResult GetUserByValidationMethodAsync(LoginViewModel loginViewModel)
+        public ServiceResult GetUserByValidationMethodAsync(SignInViewModel loginViewModel)
         {
             try
             {
@@ -62,6 +62,35 @@ namespace ApplicationLayer.BusinessLogic.Services
                     Data = null,
                     Message = CommonMessages.Failed
                 };
+            }
+        }
+
+        public async Task<ServiceResult> AddUserAccountAsync(UserAccount model)
+        {
+            try
+            {
+                await _userAccountRepository.AddAsync(model);
+                return new ServiceResult { RequestStatus = RequestStatus.Successful, Data = model, Message = CommonMessages.Successful };
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(message: exception.Message, CommonMessages.Failed);
+                return new ServiceResult { RequestStatus = RequestStatus.Failed, Data = model, Message = CommonMessages.Failed };
+            }
+        }
+
+        public async Task<ServiceResult> AddProfileAsync(UserProfile model)
+        {
+            try
+            {
+                model.IsActive = true;
+                await _userProfileRepository.AddAsync(model);
+                return new ServiceResult { RequestStatus = RequestStatus.Successful, Data = model, Message = CommonMessages.Successful };
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(message: exception.Message, CommonMessages.Failed);
+                return new ServiceResult { RequestStatus = RequestStatus.Failed, Data = model, Message = CommonMessages.Failed };
             }
         }
     }

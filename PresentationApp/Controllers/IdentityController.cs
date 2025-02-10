@@ -1,4 +1,5 @@
 ﻿using ApplicationLayer.Extensions;
+using ApplicationLayer.Requests.Identities.Command;
 using ApplicationLayer.Requests.Identities.Query;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +16,12 @@ namespace PresentationApp.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> LoginAsync(LoginQuery model)
+        public async Task<IActionResult> LoginAsync(SignInQuery model)
             => await ResultHelper.GetResultAsync(_mediator, model);
+
+        [HttpPost]
+        [Route("SignUpCommand")]
+        public async Task<IActionResult> CreateUserAccountAsync(SignUpCommand model)
+    => await ResultHelper.GetResultAsync(_mediator, model);
     }
 }

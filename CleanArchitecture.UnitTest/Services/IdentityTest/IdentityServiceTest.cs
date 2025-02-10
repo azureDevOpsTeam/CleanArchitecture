@@ -33,7 +33,7 @@ namespace CleanArchitecture.UnitTest.Services.IdentityTest
         [Fact]
         public void AuthenticateOneTimePassword_Successful()
         {
-            var loginViewModel = new LoginViewModel { UserName = "testuser", SecurityCode = 123456 };
+            var loginViewModel = new SignInViewModel { UserName = "testuser", SecurityCode = 123456 };
             var userAccount = new UserAccount { SecurityCode = 123456, ExpireSecurityCode = DateTime.Now.AddMinutes(5) };
 
             _mockConfiguration.Setup(c => c["JWT:Key"]).Returns("rZ5GvP7Qk9eA3D1jN8iR6hYtO2fW4sLmK0xU1cBnJdXpFySgEwMqCzVbH3uI5oT");
@@ -46,7 +46,7 @@ namespace CleanArchitecture.UnitTest.Services.IdentityTest
         [Fact]
         public void AuthenticateOneTimePassword_IncorrectSecurityCode()
         {
-            var loginViewModel = new LoginViewModel { UserName = "testuser", SecurityCode = 654321 };
+            var loginViewModel = new SignInViewModel { UserName = "testuser", SecurityCode = 654321 };
             var userAccount = new UserAccount { SecurityCode = 123456, ExpireSecurityCode = DateTime.Now.AddMinutes(5) };
 
             var result = _identityService.AuthenticateOneTimePassword(loginViewModel, userAccount);

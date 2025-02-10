@@ -24,7 +24,7 @@ namespace ApplicationLayer.BusinessLogic.Services
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
         private readonly ILogger<IdentityService> _logger = logger;
 
-        public ServiceResult AuthenticateOneTimePassword(LoginViewModel loginViewModel, UserAccount userAccount)
+        public ServiceResult AuthenticateOneTimePassword(SignInViewModel loginViewModel, UserAccount userAccount)
         {
             if (loginViewModel.SecurityCode != userAccount.SecurityCode || DateTime.Now > userAccount.ExpireSecurityCode)
             {
@@ -49,7 +49,7 @@ namespace ApplicationLayer.BusinessLogic.Services
             };
         }
 
-        public ServiceResult AuthenticateUserInformation(LoginViewModel loginViewModel, UserAccount userAccount)
+        public ServiceResult AuthenticateUserInformation(SignInViewModel loginViewModel, UserAccount userAccount)
         {
             var passwordIsValid = HashGenerator.VerifyPassword(loginViewModel.Password, userAccount.Password, userAccount.SecurityStamp);
             if (!passwordIsValid)

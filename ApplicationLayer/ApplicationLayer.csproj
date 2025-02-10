@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="1-Common\ViewModels\" />
-    <Folder Include="7-Requests\Identities\Command\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿namespace ApplicationLayer.ViewModels.Identity
 {
-    public class LoginViewModel
+    public class SignInViewModel
     {
         public int ValidationMethod { get; set; }
 
