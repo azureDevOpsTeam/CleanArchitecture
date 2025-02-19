@@ -3,6 +3,7 @@
 using ApplicationLayer.Behaviors;
 using ApplicationLayer.Common.Validations;
 using ApplicationLayer.Extensions;
+using ApplicationLayer.MapperProfile;
 using DomainLayer.Common.Attributes;
 using FluentValidation;
 using MediatR;
@@ -50,6 +51,7 @@ namespace ApplicationLayer
             services.ConfigurationDependency();
             services.AddMemoryCache();
             services.SwaggerConfiguration(configuration);
+            services.AddAutoMapper(typeof(UserAccountProfile).GetTypeInfo().Assembly);
             services.JwtAuthorizeConfiguration(configuration);
             services.SeriLogConfiguration(configuration);
         }

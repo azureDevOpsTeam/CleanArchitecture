@@ -2,9 +2,9 @@
 
 namespace ApplicationLayer.MapperProfile
 {
-    public class UserProfile : Profile
+    public class UserAccountProfile : Profile
     {
-        public UserProfile()
+        public UserAccountProfile()
         {
             //CreateMap<CreateUserViewModel, User>().ReverseMap();
 
