@@ -22,6 +22,6 @@ namespace PresentationApp.Controllers
         [HttpPost]
         [Route("SignUpCommand")]
         public async Task<IActionResult> CreateUserAccountAsync(SignUpCommand model)
-    => await ResultHelper.GetResultAsync(_mediator, model);
+            => await ResultHelper.GetResultAsync(_mediator, model);
     }
 }
